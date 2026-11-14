@@ -155,6 +155,7 @@ Libraries: WebSockets (Markus Sattler), OneWire, DallasTemperature, ArduinoJson.
 - Went through three enclosure designs: a stake, a long T-probe and the final short **SoilPlus Mini**. Each pass got simpler and lighter, and the pump was dropped.
 - Audited the design for printing and assembly, then printed a test piece and tuned the slot width from the real print.
 - Printed the main body and fitted the battery, charger and booster into their pockets.
+- Brought up a new ESP32 and streamed live data to the website. Along the way we fixed a slow, unreliable USB upload, signal wires shorted on a breadboard rail and the missing DS18B20 pull-up, then calibrated moisture. Step by step: [`CONNECTING.md`](CONNECTING.md).
 
 ## Known limitations
 
