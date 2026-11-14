@@ -13,3 +13,4 @@ The project has two halves:
 | [`device/`](device/README.md) | how the probe works, wiring, calibration, data format |
 | [`device/firmware/`](device/firmware/soilplus) | ESP32 firmware (Arduino) |
 | [`device/hardware/`](device/hardware) | parametric Fusion model, print files (STL/STEP), build guide |
+| [`rotation/`](rotation/RULES.md) | crop table with sources (FAO, EcoCrop) and the crop-rotation rules that combine NASA data, soil readings and farmer priorities |
