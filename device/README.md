@@ -48,6 +48,7 @@ In the soil, the moisture sensor reaches **~7 cm** deep, the DS18B20 **5 cm**, t
    Right after a client connects, the probe also sends a `{"hello": "SoilPlus online"}` greeting. Clients ignore it.
 4. **Connecting a web app.** The probe prints its IP address in Serial Monitor: `[WS] Open ws://192.168.x.x:81/`. The browser opens `ws://<IP>:81/` and receives the stream. The web app keeps a 5-second rolling median of pH and TDS, because the high-impedance pH electrode jitters by ±0.2. It reconnects automatically if the hotspot drops.
    Browsers block `ws://` from an `https://` page, so a live demo with the probe runs on `http://localhost`. The phone and laptop must be on the same hotspot.
+   A ready-made client for the website, a mock probe for working without the hardware and a connection test page are in [`web-client/`](web-client/README.md).
 
 ## Calibration
 
@@ -63,6 +64,19 @@ Done once, through Serial Monitor (115200 baud). Values are saved in flash and s
 | `cal show` | prints the current calibration |
 
 Do not put the TDS probe and the pH electrode in the same water: the TDS excitation current shifts the pH reading by up to 0.8 pH.
+
+The calibration lives in the ESP32's own flash memory, not in the website or this repository. Reflashing the firmware keeps it; only `cal reset` erases it.
+
+**Current state of the demo board (15 Nov 2026):**
+
+| Sensor | Calibration | Check |
+|---|---|---|
+| Moisture | done: dry (air) raw 2400, wet (water) raw 587 | air 1 %, water 100 % |
+| Temperature (DS18B20) | none needed | 23.4 °C in the room |
+| TDS | factory curve (factor 1.0), temperature-compensated | tap water ~250 ppm |
+| pH | **not calibrated yet**: needs pH 4.00 and pH 6.86/7.00 buffer solutions | — |
+
+The moisture calibration was taken with the current wiring. If the wiring changes, repeat `cal moistdry` / `cal moistwet`.
 
 ## Electronics
 
