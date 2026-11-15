@@ -35,8 +35,6 @@ npm run build
 | Animation | motion |
 | Radix primitives (only if a component needs them) | `radix-ui` |
 
-Library choice follows the `pick-ui-library` skill in [`../.claude/skills/`](../.claude/skills/pick-ui-library/SKILL.md).
-
 ## Adding components
 
 ```bash
