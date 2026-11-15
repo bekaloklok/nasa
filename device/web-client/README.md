@@ -1,6 +1,6 @@
 # Connecting the probe to the website
 
-Everything the website needs to receive live data from the SoilPlus Mini probe. No dependencies, any framework.
+Everything the website needs to receive live data from the soil probe. No dependencies, any framework.
 
 | File | What it is |
 |---|---|

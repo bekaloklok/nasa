@@ -1,4 +1,4 @@
-# SoilPlus Mini — короткий ручной щуп
+# Ручной почвенный щуп
 
 Высота 27 см. Блок 95×95×48 мм, Т-ручка, горловина с юбкой-упором 120×70 мм.
 Влажность уходит в почву на ~7 см, DS18B20 на 5 см, иглы TDS на 1.2 см. Электрод pH внешний, на разъёме BNC.
@@ -6,10 +6,10 @@
 ## Как запустить в Fusion
 
 1. New Design → **Hybrid Design**, единицы mm.
-2. UTILITIES → **Scripts and Add-Ins** → «+» → *Script or add-in from device* → папка `device/hardware/SoilPlusMini` → **Run**.
+2. UTILITIES → **Scripts and Add-Ins** → «+» → *Script or add-in from device* → папка `device/hardware/GroundProbe` → **Run**.
 3. Результаты появятся в `device/hardware/out/`: STEP, STL, снимки и `fusion_report.json`.
 
-Размеры — в блоке «ПАРАМЕТРЫ» и в функциях `build_*` файла `SoilPlusMini.py`.
+Размеры — в блоке «ПАРАМЕТРЫ» и в функциях `build_*` файла `GroundProbe.py`.
 
 ## Детали для печати (PETG, слой 0.2, 6 периметров, без поддержек)
 
@@ -64,7 +64,7 @@
 | Перфоплата | 50 × 70 | стандарт 5×7 см |
 | Пазы под платы (перфоплата, pH, TDS) | 1.8 (`PCB_SLOT`) | тест 0_Test_Fit: туго в 1.7, в 1.8+ болтается; в панели паз лежит поперёк слоёв, 1.8 = 9 слоёв |
 
-Если реальная деталь отличается — поменять число в начале `SoilPlusMini.py` (`BAT_L`, `BAT_W`, `TDS_D`, `BNC_Z`, `BNC_Y`, `ELECTRODE_*`) и запустить скрипт заново.
+Если реальная деталь отличается — поменять число в начале `GroundProbe.py` (`BAT_L`, `BAT_W`, `TDS_D`, `BNC_Z`, `BNC_Y`, `ELECTRODE_*`) и запустить скрипт заново.
 
 ## Как что закреплено
 

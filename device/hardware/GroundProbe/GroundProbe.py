@@ -1,7 +1,7 @@
 """
-SoilPlus Mini — короткий ручной щуп (Autodesk Fusion, Python API).
+Ручной почвенный щуп (Autodesk Fusion, Python API).
 
-Запуск: UTILITIES -> Scripts and Add-Ins -> «+» -> папка SoilPlusMini -> Run.
+Запуск: UTILITIES -> Scripts and Add-Ins -> «+» -> папка GroundProbe -> Run.
 Открой пустой документ Hybrid Design; если документ не пустой, скрипт создаст новый.
 
 Строит: блок электроники, крышку, панель, Т-ручку, горловину с юбкой-упором,
@@ -115,7 +115,7 @@ def appearance(key):
                         base = lib.appearances.item(i)
                         break
         if base:
-            ap = DESIGN.appearances.addByCopy(base, "SoilPlus " + key)
+            ap = DESIGN.appearances.addByCopy(base, "Probe " + key)
             r, g, b = COLORS[key]
             prop = ap.appearanceProperties.itemById("opaque_albedo")
             if not prop:
@@ -727,7 +727,7 @@ def export(parts, printed):
     em = DESIGN.exportManager
     os.makedirs(OUT_DIR, exist_ok=True)
     try:
-        em.execute(em.createSTEPExportOptions(os.path.join(OUT_DIR, "SoilPlus_Probe.step"), ROOT))
+        em.execute(em.createSTEPExportOptions(os.path.join(OUT_DIR, "GroundProbe.step"), ROOT))
     except Exception:
         FAILS.append("step: " + traceback.format_exc(limit=1))
     sizes = {}
@@ -830,7 +830,7 @@ def main():
     ROOT = DESIGN.rootComponent
 
     prog = ui.createProgressDialog()
-    prog.show("SoilPlus", "Строю: %v из %m", 0, 20, 0)
+    prog.show("Ground probe", "Строю: %v из %m", 0, 20, 0)
     steps = STEPS
     parts = {}
     for i, (key, fn) in enumerate(steps):
@@ -879,7 +879,7 @@ def main():
         json.dump(report, f, ensure_ascii=False, indent=2)
     msg = "Готово за %.0f с.\nОшибок построения: %d\nПересечений: %d\nФайлы: %s" % (
         report["seconds"], len(FAILS), len(clashes), os.path.normpath(OUT_DIR))
-    ui.messageBox(msg, "SoilPlus")
+    ui.messageBox(msg, "Ground probe")
 
 
 def run(context):
@@ -893,4 +893,4 @@ def run(context):
                 json.dump({"fatal": err, "fails": FAILS, "log": LOG}, f, ensure_ascii=False, indent=2)
         except Exception:
             pass
-        ui.messageBox("Ошибка:\n" + err, "SoilPlus")
+        ui.messageBox("Ошибка:\n" + err, "Ground probe")

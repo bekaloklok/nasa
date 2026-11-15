@@ -1,5 +1,5 @@
 /**
- * SoilPlus Mini probe — browser client. No dependencies, works with any
+ * Soil probe — browser client. No dependencies, works with any
  * framework (React, Vue, Svelte, plain HTML).
  *
  * The probe (ESP32) runs a WebSocket server on port 81 and pushes one JSON

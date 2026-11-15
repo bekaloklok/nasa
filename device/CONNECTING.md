@@ -12,7 +12,7 @@ sensors ──wires──► ESP32 ──Wi-Fi (phone hotspot)──► laptop b
 
 A new ESP32 ships with the factory "AT" firmware (`Bin version(Wroom32):1.1.2` in the boot log). It does not read any sensors, so our firmware has to go on first.
 
-1. Copy `firmware/soilplus/secrets.example.h` to `secrets.h` and fill in the hotspot name and password. The name is case-sensitive and the file is never committed.
+1. Copy `firmware/ground_probe/secrets.example.h` to `secrets.h` and fill in the hotspot name and password. The name is case-sensitive and the file is never committed.
 2. Compile in Arduino IDE (board: *ESP32 Dev Module*). Libraries: WebSockets (Markus Sattler), OneWire, DallasTemperature, ArduinoJson.
 3. **Disconnect all sensors**, then upload.
 
@@ -59,7 +59,7 @@ Wiring: see the pin table in [`README.md`](README.md#electronics).
 
 ## Stage 3. Calibration
 
-Calibration is done through Serial Monitor and stored in the ESP32's flash. The commands and the current values are in [`README.md`](README.md#calibration). On the demo board, moisture is calibrated (`cal moistdry` in air, `cal moistwet` in water). pH still needs pH 4.00 and pH 6.86/7.00 buffer solutions.
+Calibration is done through Serial Monitor and stored in the ESP32's flash. The commands and the current values are in [`README.md`](README.md#calibration). On the demo board, moisture is calibrated (`cal moistdry` in air, `cal moistwet` in water). pH still needs pH 4.00 and pH 6.86/7.00 buffer solutions. The calibration is stored under the flash key `probe`. A board flashed earlier with another build keeps its values under a different key, so after flashing this firmware, calibrate again (moisture takes a minute).
 
 ## Stage 4. Wi-Fi
 
@@ -82,7 +82,7 @@ Calibration is done through Serial Monitor and stored in the ESP32's flash. The 
 3. In the site, enter the probe IP (`172.20.10.2`). The client [`web-client/soil-device.js`](web-client/README.md) opens `ws://172.20.10.2:81/` and updates the values five times a second.
 4. Quick check without the site: `python3 -m http.server 8765 -d device/web-client`, then open `http://localhost:8765/test.html`.
 
-We checked the link from the laptop directly. The probe answered with `{"hello":"SoilPlus online"}` and then `{"temp":23.5,"ph":11.29,"tds":254,"moist":37,"fw":2}` five times a second. The pH value there was before calibration.
+We checked the link from the laptop directly. The probe answered with a `{"hello": ...}` greeting and then `{"temp":23.5,"ph":11.29,"tds":254,"moist":37,"fw":2}` five times a second. The pH value there was before calibration.
 
 ## Before the demo
 

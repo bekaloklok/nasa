@@ -1,4 +1,4 @@
-# SoilPlus Mini — ground soil probe
+# Ground soil probe
 
 A handheld probe that measures soil **pH, salinity (TDS / EC), moisture and temperature** right in the field. It sends the readings over Wi-Fi to the web app five times a second.
 
@@ -45,7 +45,7 @@ In the soil, the moisture sensor reaches **~7 cm** deep, the DS18B20 **5 cm**, t
    | `moist` | % | 0 = dry air, 100 = water |
    | `fw` | — | firmware version; 2 and above has the corrected pH scale |
 
-   Right after a client connects, the probe also sends a `{"hello": "SoilPlus online"}` greeting. Clients ignore it.
+   Right after a client connects, the probe also sends a `{"hello": "probe online"}` greeting. Clients ignore it.
 4. **Connecting a web app.** The probe prints its IP address in Serial Monitor: `[WS] Open ws://192.168.x.x:81/`. The browser opens `ws://<IP>:81/` and receives the stream. The web app keeps a 5-second rolling median of pH and TDS, because the high-impedance pH electrode jitters by ±0.2. It reconnects automatically if the hotspot drops.
    Browsers block `ws://` from an `https://` page, so a live demo with the probe runs on `http://localhost`. The phone and laptop must be on the same hotspot.
    A ready-made client for the website, a mock probe for working without the hardware and a connection test page are in [`web-client/`](web-client/README.md).
@@ -116,7 +116,7 @@ Inside the block there are two levels:
 
 In the sensor head, three screw jaws clamp the moisture sensor (inside a protective fork), the DS18B20 (in a small tripod) and the TDS probe. Everything is held mechanically, with no glue or tape.
 
-- Designed as a parametric **Autodesk Fusion Python script**: [`hardware/SoilPlusMini/SoilPlusMini.py`](hardware/SoilPlusMini/SoilPlusMini.py). Every size is a parameter at the top of the file. Running the script rebuilds the model and checks all parts for collisions (0 found). It then exports the STL files and STEP to [`hardware/out/`](hardware/out).
+- Designed as a parametric **Autodesk Fusion Python script**: [`hardware/GroundProbe/GroundProbe.py`](hardware/GroundProbe/GroundProbe.py). Every size is a parameter at the top of the file. Running the script rebuilds the model and checks all parts for collisions (0 found). It then exports the STL files and STEP to [`hardware/out/`](hardware/out).
 - Real parts were measured with calipers; missing sizes come from datasheets. Every sliding fit has 0.3 mm clearance per side.
 - Printed on a Bambu Lab A1: PLA, 0.2 mm layers, 6 walls, no supports. A test piece came first. The perfboard was snug in a 1.7 mm slot, so the deck slots are 1.8 mm (nine 0.2 mm layers, because the slot lies across the layers).
 - M3 screws go straight into 2.5 mm pilot holes in the plastic and cut their own thread. No brass inserts are needed.
@@ -133,7 +133,7 @@ Do not rock the probe while it is in the soil: the force should go through the h
 
 ## Firmware
 
-[`firmware/soilplus/soilplus.ino`](firmware/soilplus/soilplus.ino), Arduino IDE with the ESP32 board package.
+[`firmware/ground_probe/ground_probe.ino`](firmware/ground_probe/ground_probe.ino), Arduino IDE with the ESP32 board package.
 Libraries: WebSockets (Markus Sattler), OneWire, DallasTemperature, ArduinoJson.
 
 1. Copy `secrets.example.h` to `secrets.h` and fill in your hotspot names and passwords. `secrets.h` is in `.gitignore` and must never be committed.
@@ -152,7 +152,7 @@ Libraries: WebSockets (Markus Sattler), OneWire, DallasTemperature, ArduinoJson.
   - the pH formula had its sign reversed (a pH 4 buffer read 10). Fixed in firmware v2; the web app un-mirrors data from boards that still run v1;
   - without the temperature sensor, TDS was "compensated" to 0 °C, which doubled the reading. Now it assumes 25 °C;
   - two equal moisture calibration points caused a divide-by-zero and a reboot loop. Now guarded.
-- Went through three enclosure designs: a stake, a long T-probe and the final short **SoilPlus Mini**. Each pass got simpler and lighter, and the pump was dropped.
+- Went through three enclosure designs: a stake, a long T-probe and the final short handheld probe. Each pass got simpler and lighter, and the pump was dropped.
 - Audited the design for printing and assembly, then printed a test piece and tuned the slot width from the real print.
 - Printed the main body and fitted the battery, charger and booster into their pockets.
 - Brought up a new ESP32 and streamed live data to the website. Along the way we fixed a slow, unreliable USB upload, signal wires shorted on a breadboard rail and the missing DS18B20 pull-up, then calibrated moisture. Step by step: [`CONNECTING.md`](CONNECTING.md).

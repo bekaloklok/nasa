@@ -1,7 +1,7 @@
 
 /*
  * =====================================================================
- *  SoilPlus ground probe  —  NASA Space Apps 2026
+ *  Ground soil probe  —  NASA Space Apps 2026
  *  "Adapting Farms with NASA Data"  (firmware first built for WRO 2026)
  * =====================================================================
  *  Firmware: ESP32 sensor node
@@ -48,7 +48,7 @@
  *      never lands in the public repository. First build on a new machine:
  *      copy secrets.example.h to secrets.h and fill it in.
  *
- *      Up to three hotspots can be listed (SOILPLUS_WIFI_SSID, _2, _3).
+ *      Up to three hotspots can be listed (PROBE_WIFI_SSID, _2, _3).
  *      The board joins whichever known one is in range, so each team member
  *      can run the demo from their own phone without a reflash.
  * =====================================================================*/
@@ -109,7 +109,7 @@ float tdsFactor = DEFAULT_TDS_FACTOR;
 int   moistDry  = DEFAULT_MOIST_DRY;
 int   moistWet  = DEFAULT_MOIST_WET;
 
-Preferences prefs;   // NVS namespace "soilplus"
+Preferences prefs;   // NVS namespace "probe"
 
 /* =====================================================================
  *  6)  TIMING
@@ -254,7 +254,7 @@ Reading takeReading() {
  *  9b) CALIBRATION PERSISTENCE  (NVS / flash)
  * =====================================================================*/
 void loadCalibration() {
-  prefs.begin("soilplus", /*readOnly=*/true);
+  prefs.begin("probe", /*readOnly=*/true);
   phV7      = prefs.getFloat("phV7",   DEFAULT_PH_V7);
   phV4      = prefs.getFloat("phV4",   DEFAULT_PH_V4);
   tdsFactor = prefs.getFloat("tdsFac", DEFAULT_TDS_FACTOR);
@@ -264,7 +264,7 @@ void loadCalibration() {
 }
 
 void saveCalibration() {
-  prefs.begin("soilplus", /*readOnly=*/false);
+  prefs.begin("probe", /*readOnly=*/false);
   prefs.putFloat("phV7",   phV7);
   prefs.putFloat("phV4",   phV4);
   prefs.putFloat("tdsFac", tdsFactor);
@@ -274,7 +274,7 @@ void saveCalibration() {
 }
 
 void printCalibration() {
-  Serial.println("---- SoilPlus calibration ----");
+  Serial.println("---- Probe calibration ----");
   Serial.printf ("  pH   V7 = %.3f V   V4 = %.3f V   (span %.3f V)\n",
                  phV7, phV4, phV7 - phV4);
   Serial.printf ("  TDS  factor = %.4f\n", tdsFactor);
@@ -401,7 +401,7 @@ void onWsEvent(uint8_t num, WStype_t type, uint8_t* /*payload*/, size_t /*length
       Serial.printf("[WS] Client #%u connected from %s\n",
                     num, ip.toString().c_str());
       // Optional handshake frame — the web hook silently ignores it.
-      webSocket.sendTXT(num, "{\"hello\":\"SoilPlus online\"}");
+      webSocket.sendTXT(num, "{\"hello\":\"probe online\"}");
       break;
     }
     case WStype_DISCONNECTED:
@@ -418,21 +418,21 @@ void onWsEvent(uint8_t num, WStype_t type, uint8_t* /*payload*/, size_t /*length
 void connectWiFi() {
   Serial.println();
   Serial.println("============================================");
-  Serial.println("  SoilPlus  —  WRO 2026 Future Innovators");
+  Serial.println("  Ground soil probe  —  NASA Space Apps 2026");
   Serial.println("  Uralsk, Kazakhstan");
   Serial.println("============================================");
   WiFi.mode(WIFI_STA);
   WiFi.setSleep(false);
 
-  Serial.print("[WiFi] Known hotspots: \"" SOILPLUS_WIFI_SSID "\"");
-  wifiMulti.addAP(SOILPLUS_WIFI_SSID, SOILPLUS_WIFI_PASSWORD);
-#ifdef SOILPLUS_WIFI_SSID_2
-  Serial.print(", \"" SOILPLUS_WIFI_SSID_2 "\"");
-  wifiMulti.addAP(SOILPLUS_WIFI_SSID_2, SOILPLUS_WIFI_PASSWORD_2);
+  Serial.print("[WiFi] Known hotspots: \"" PROBE_WIFI_SSID "\"");
+  wifiMulti.addAP(PROBE_WIFI_SSID, PROBE_WIFI_PASSWORD);
+#ifdef PROBE_WIFI_SSID_2
+  Serial.print(", \"" PROBE_WIFI_SSID_2 "\"");
+  wifiMulti.addAP(PROBE_WIFI_SSID_2, PROBE_WIFI_PASSWORD_2);
 #endif
-#ifdef SOILPLUS_WIFI_SSID_3
-  Serial.print(", \"" SOILPLUS_WIFI_SSID_3 "\"");
-  wifiMulti.addAP(SOILPLUS_WIFI_SSID_3, SOILPLUS_WIFI_PASSWORD_3);
+#ifdef PROBE_WIFI_SSID_3
+  Serial.print(", \"" PROBE_WIFI_SSID_3 "\"");
+  wifiMulti.addAP(PROBE_WIFI_SSID_3, PROBE_WIFI_PASSWORD_3);
 #endif
   Serial.print("\n[WiFi] Searching");
 
@@ -529,7 +529,7 @@ void loop() {
   if (now - lastDebug >= DEBUG_MS) {
     lastDebug = now;
     const Reading& r = lastReading;
-    Serial.println("---- SoilPlus live reading ----");
+    Serial.println("---- Probe live reading ----");
     Serial.printf ("  Temp     : %.2f °C\n",                   r.tempC);
     Serial.printf ("  pH       : %.2f         (raw=%d  V=%.3f)\n",
                    r.ph, r.phRaw, r.phVolts);

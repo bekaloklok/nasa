@@ -1,4 +1,4 @@
-"""Fake SoilPlus probe for building the website without the hardware.
+"""Fake soil probe for building the website without the hardware.
 
 Speaks the same protocol as the ESP32: a WebSocket server that sends one JSON
 reading every 200 ms. Python 3 standard library only.
@@ -60,7 +60,7 @@ def serve(conn, addr):
         if not handshake(conn):
             return
         print(f"client connected: {addr[0]}")
-        conn.sendall(text_frame(json.dumps({"hello": "SoilPlus online"})))
+        conn.sendall(text_frame(json.dumps({"hello": "probe online"})))
         while True:
             conn.sendall(text_frame(json.dumps(reading(time.time()))))
             time.sleep(0.2)
